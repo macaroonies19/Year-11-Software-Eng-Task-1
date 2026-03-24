@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import matplotlib.pyplot as plt
 
 API_KEY = "LY1OdRo80RFWhX3bg8ddfhrnuYia3LSXmXc9YTcY"
 
@@ -62,3 +63,47 @@ def calculate_totals(items):
         totals["fiber"] += item.get("fiber_g", 0)
 
     return totals
+
+def graph_single_food(item):
+    """
+    Creates a bar chart for a single food item.
+    """
+
+    labels = ["Fat", "Carbs", "Sugar", "Fiber"]
+    values = [
+        item["fat_total_g"],
+        item["carbohydrates_total_g"],
+        item["sugar_g"],
+        item["fiber_g"]
+    ]
+
+    plt.figure(figsize=(8, 5))
+    plt.bar(labels, values, color=["#ff9999", "#99ccff", "#ffcc99", "#c2f0c2"])
+    plt.title(f"Nutrition Breakdown for {item['name']}")
+    plt.ylabel("Grams (g)")
+    plt.show()
+
+
+def graph_multiple_foods(items):
+    """
+    Creates a stacked bar chart comparing multiple foods.
+    """
+
+    names = [item["name"] for item in items]
+
+    fat = [item["fat_total_g"] for item in items]
+    carbs = [item["carbohydrates_total_g"] for item in items]
+    sugar = [item["sugar_g"] for item in items]
+
+    plt.figure(figsize=(10, 6))
+
+    plt.bar(names, fat, label="Fat")
+    plt.bar(names, carbs, bottom=fat, label="Carbs")
+    plt.bar(names, sugar, bottom=[fat[i] + carbs[i] for i in range(len(items))], label="Sugar")
+
+    plt.title("Nutrition Comparison")
+    plt.ylabel("Grams (g)")
+    plt.legend()
+    plt.xticks(rotation=30)
+    plt.tight_layout()
+    plt.show()
