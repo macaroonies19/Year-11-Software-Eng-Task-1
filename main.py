@@ -1,4 +1,4 @@
-from functions import get_nutrition, calculate_totals
+from functions import get_nutrition, calculate_totals, graph_single_food, graph_multiple_foods
 import pandas as pd
 
 # DataFrame to store user interactions
@@ -87,6 +87,22 @@ def main():
             print("Sugar (g):", totals["sugar"])
             print("Fiber (g):", totals["fiber"])
             print()
+        # Ask user if they want a graph
+while True:
+    graph_choice = input("Show graph? (yes/no): ").strip().lower()
+
+    if graph_choice == "yes":
+        if len(items) == 1:
+            graph_single_food(items[0])
+        else:
+            graph_multiple_foods(items)
+        break
+
+    elif graph_choice == "no":
+        break
+
+    else:
+        print("Please type 'yes' or 'no'.")
 
 
 if __name__ == "__main__":
