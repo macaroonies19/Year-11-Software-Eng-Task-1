@@ -1,30 +1,45 @@
 import requests
+import pandas as pd
 
 API_KEY = "LY1OdRo80RFWhX3bg8ddfhrnuYia3LSXmXc9YTcY"
 
 def get_nutrition(food):
+    """
+    Fetch nutrition data for a given food using the API Ninjas Nutrition API.
+    Returns a dictionary or None if no data is found.
+    """
+
     url = "https://api.api-ninjas.com/v1/nutrition"
+    headers = {"X-Api-Key": API_KEY}
+    params = {"query": food}
 
-    headers = {
-        "X-Api-Key": API_KEY
-    }
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=5)
 
-    params = {
-        "query": food
-    }
+        # Handle HTTP errors
+        response.raise_for_status()
 
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
         data = response.json()
-        if len(data) == 0:
+
+        if not data:
             return None
+
         return data[0]
-    else:
+
+    except requests.exceptions.Timeout:
+        print("Error: The request timed out. Please try again.")
+        return None
+
+    except requests.exceptions.RequestException:
+        print("Error: Could not connect to the API.")
         return None
 
 
 def calculate_totals(items):
+    """
+    Takes a list of nutrition dictionaries and returns total values.
+    """
+
     totals = {
         "fat": 0,
         "saturated_fat": 0,
@@ -37,15 +52,13 @@ def calculate_totals(items):
     }
 
     for item in items:
-        totals["fat"] += item["fat_total_g"]
-        totals["saturated_fat"] += item["fat_saturated_g"]
-        totals["sodium"] += item["sodium_mg"]
-        totals["potassium"] += item["potassium_mg"]
-        totals["cholesterol"] += item["cholesterol_mg"]
-        totals["carbs"] += item["carbohydrates_total_g"]
-        totals["sugar"] += item["sugar_g"]
-        totals["fiber"] += item["fiber_g"]
+        totals["fat"] += item.get("fat_total_g", 0)
+        totals["saturated_fat"] += item.get("fat_saturated_g", 0)
+        totals["sodium"] += item.get("sodium_mg", 0)
+        totals["potassium"] += item.get("potassium_mg", 0)
+        totals["cholesterol"] += item.get("cholesterol_mg", 0)
+        totals["carbs"] += item.get("carbohydrates_total_g", 0)
+        totals["sugar"] += item.get("sugar_g", 0)
+        totals["fiber"] += item.get("fiber_g", 0)
 
     return totals
-
-
