@@ -1,15 +1,22 @@
-from functions import get_nutrition, calculate_totals, graph_single_food, graph_multiple_foods
+from functions import (
+    get_nutrition,
+    calculate_totals,
+    graph_single_food,
+    graph_multiple_foods
+)
 import pandas as pd
+
 
 # DataFrame to store user interactions
 history = pd.DataFrame(columns=["food", "fat", "carbs", "sugar"])
+
 
 def show_help():
     print("\nHELP MENU")
     print("1. Enter food names separated by commas (e.g., egg, toast)")
     print("2. Type 'history' to view past searches")
     print("3. Type 'exit' to quit the program")
-    print("4. Program handles spelling mistakes, errors, and invalid inputs\n")
+    print("4. Type 'help' to view this menu again\n")
 
 
 def display_nutrition(result):
@@ -33,28 +40,33 @@ def main():
     while True:
         user_input = input("Enter food items: ").strip().lower()
 
+        # Exit program
         if user_input == "exit":
             print("Goodbye!")
             break
 
+        # Help menu
         if user_input == "help":
             show_help()
             continue
 
+        # Show history
         if user_input == "history":
             print("\n--- Past Interactions ---")
             print(history if not history.empty else "No history yet.")
             print()
             continue
 
+        # Empty input
         if not user_input:
             print("Error: You must enter at least one food name.\n")
             continue
 
+        # Split foods
         foods = [f.strip() for f in user_input.split(",")]
-
         items = []
 
+        # Process each food
         for food in foods:
             result = get_nutrition(food)
 
@@ -73,6 +85,7 @@ def main():
             else:
                 print(f"No data found for '{food}'. Check spelling.\n")
 
+        # Show totals if multiple foods
         if len(items) > 1:
             totals = calculate_totals(items)
 
@@ -87,22 +100,23 @@ def main():
             print("Sugar (g):", totals["sugar"])
             print("Fiber (g):", totals["fiber"])
             print()
+
         # Ask user if they want a graph
-while True:
-    graph_choice = input("Show graph? (yes/no): ").strip().lower()
+        while True:
+            graph_choice = input("Show graph? (yes/no): ").strip().lower()
 
-    if graph_choice == "yes":
-        if len(items) == 1:
-            graph_single_food(items[0])
-        else:
-            graph_multiple_foods(items)
-        break
+            if graph_choice == "yes":
+                if len(items) == 1:
+                    graph_single_food(items[0])
+                else:
+                    graph_multiple_foods(items)
+                break
 
-    elif graph_choice == "no":
-        break
+            elif graph_choice == "no":
+                break
 
-    else:
-        print("Please type 'yes' or 'no'.")
+            else:
+                print("Please type 'yes' or 'no'.")
 
 
 if __name__ == "__main__":
