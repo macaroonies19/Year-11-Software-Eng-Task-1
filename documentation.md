@@ -174,61 +174,13 @@ The system must:
 | ``result`` | dict | API response for a food |
 | ``totals`` | dict | Summed nutrition values |
 
-## Structure Chart (Mermaid)
+## Structure Chart
+![Structure Chart](Charts/structure-chart.png)
 
-```mermaid
-flowchart TD
-
-    A[main()] --> B[show_help()]
-    A --> C[display_nutrition(result)]
-    A --> D[get_nutrition(food)]
-    A --> E[calculate_totals(items)]
-    A --> F[graph_single_food(item)]
-    A --> G[graph_multiple_foods(items)]
-
-    D --> D1[Sends API request]
-    D --> D2[Handles errors and timeouts]
-    D --> D3[Returns nutrition dictionary or None]
-
-    E --> E1[Adds nutrition values for multiple foods]
-
-    F --> F1[Creates bar chart for one food]
-
-    G --> G1[Creates stacked bar chart for multiple foods]
-```
 ## Flowcharts and Algorithms
 ### main()
 #### Flowchart:
-
-    A[Start Program] --> B[Display Welcome Message]
-    B --> C[User Enters Input]
-
-    C --> D{Input Type?}
-
-    D --> E[help] --> F[show_help()] --> C
-    D --> G[history] --> H[Display History] --> C
-    D --> I[exit] --> J[End Program]
-
-    D --> K[Food Input]
-    K --> L[Split Foods]
-    L --> M[Loop Through Foods]
-    M --> N[get_nutrition()]
-    N --> O{Valid?}
-    O --> P[Display Nutrition] --> Q[Add to History]
-    O --> R[Show Error]
-
-    Q --> S{Multiple Foods?}
-    S --> T[calculate_totals()] --> U[Display Totals]
-    S --> V[Skip Totals]
-
-    U --> W[Ask for Graph]
-    V --> W
-
-    W --> X{Graph?}
-    X --> Y[graph_single_food or graph_multiple_foods]
-    X --> C
-
-    Y --> C
+![Main Flowchart](Charts/main-flowchart.png)
 
 #### Algorithm
 
@@ -276,3 +228,87 @@ flowchart TD
               graph_multiple_foods(items)
     END
 
+### show_help()
+#### Flowchart:
+![Help Flowchart](Charts/show_help-flowchart.png)
+
+#### Algorithm:
+```
+BEGIN
+  PRINT help instructions
+  RETURN
+END
+```
+### display_nutrition()
+#### Flowchart:
+![Display Nutrition Flowchart](Charts/display_nutrition_result-flowchart.png)
+#### Algorithm:
+```
+BEGIN
+  PRINT food name
+  PRINT serving size
+  PRINT fat, saturated fat
+  PRINT sodium, potassium, cholesterol
+  PRINT carbs, sugar, fiber
+  RETURN
+END
+```
+
+### get_nutrition()
+#### Flowchart:
+![Get Nutrition Flowchart](Charts/get_nutrition-flowchart.png)
+#### Algorithm:
+```
+BEGIN
+  SEND API request with food name
+
+  IF response is valid:
+      RETURN nutrition dictionary
+  ELSE:
+      RETURN None
+END
+```
+### calculate_totals()
+#### Flowchart:
+![Calculate Totals Flowchart](Charts/calculate_totals_items-flowchart.png)
+#### Algorithm:
+```
+BEGIN
+  SET totals for all nutrition fields to 0
+
+  FOR each item in items:
+      ADD item values to totals
+
+  RETURN totals dictionary
+END
+```
+### graph_single_food()
+#### Flowchart:
+![Single Graph Flowchart](Charts/graph_single_food_item-flowchart.png)
+#### Algorithm:
+```
+BEGIN
+  EXTRACT fat, carbs, sugar, fiber from item
+  CREATE bar chart using Matplotlib
+  SHOW chart
+  RETURN
+END
+```
+### graph_multiple_foods()
+#### Flowchart:
+![Multiple Graphs Flowchart](Charts/graph_multiple_food_items-flowchart.png)
+#### Algorithm:
+```
+BEGIN
+  FOR each item:
+      EXTRACT fat, carbs, sugar
+
+  CREATE stacked bar chart using Matplotlib
+  SHOW chart
+  RETURN
+END
+```
+## Gantt Chart
+![Gannt Chart](Charts/gantt_chart.png)
+
+# Development
