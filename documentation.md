@@ -312,3 +312,22 @@ END
 ![Gannt Chart](Charts/gantt_chart.png)
 
 # Development
+![User Interface](Screenshots/user_interface.png)
+
+![Help Menu](Screenshots/help_menu.png)
+The user interface is simple, functional and clear so it is easy for users to interact with it. Commands like help, history, and exit are straightforward, and entering foods as a list is effiecent.
+
+# Integration
+![Food Item](Screenshots/enter_food_item.png)
+
+![Food Item Graph](Screenshots/food_item_graph.png)
+
+The program effectively integrates the nutrtion API as a data source and presents reponses in a clean and structured way. Pandas helps organise and process nutrition data efficiently, especially when calculating totals across multiple foods and also helps store data to view in the history, while Matplotlib provides clear visualisations that make the results easier to interpret and compare food items. Together, these tools enhance the program’s functionality by turning raw API data into meaningful, user friendly output.
+
+# Testing and Debugging
+## Student Feedback
+1. Oscar
+- During testing I found that the program met all of its functional requirements, it is especially effective with how it retrieves nutrition data, calculates totals, and generates graphs. The user interface worked well as expected, commands like help, history and exit worked as described. The response time was consistently fast for single food items, and even when I tested it with a longer list of foods, the delay was minimal and still acceptable. Load testing with repeated API calls didn’t cause crashes, although I noticed a slight slowdown after many consecutive requests, which is expected. The requirements.txt file was accurate and contained only the necessary modules, making installation straightforward. The README.md was clear, easy to follow, and provided enough detail for someone to set up and run the program without confusion.
+
+2. Aarav
+- The program performed well functionally as it correctly handled all of my inputs and testing like multiple food items and invalid entries. The program was stable throughout testing and response times were quick. When entering many foods repeatedly, the program was still reliable without issues. The requirements.txt file was complete with all dependencies listed and the README had clear set up instructions so I could easily access the program, though adding screenshots or examples could make it even more accessable and user friendly. Overall the system was well structured and easy to use.
